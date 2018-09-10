@@ -29,7 +29,7 @@ func main() {
 
 	credentials, err := credentials.FromJSON(f, params)
 	if err != nil {
-		log.Fatalf("Failed to retrieve credentials %v", err)
+		log.Fatalf("Failed to read credentials %v", err)
 	}
 
 	fmt.Printf("username=%s\n", credentials.Username)
