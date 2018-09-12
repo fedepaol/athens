@@ -3,6 +3,7 @@ package credentials
 type pullParams struct {
 	RepoURL      string
 	RepoProtocol string
+	Operation    string
 }
 
 type credentials struct {

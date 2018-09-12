@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"os"
 	"regexp"
 	"strings"
 )
@@ -16,6 +17,9 @@ import (
 // path=foo.git
 func ParseInput(r io.Reader) (*pullParams, error) {
 	scn := bufio.NewScanner(r)
+
+	operation := os.Args[len(os.Args)-1]
+
 	var lines []string
 
 	for scn.Scan() {
@@ -24,7 +28,7 @@ func ParseInput(r io.Reader) (*pullParams, error) {
 	}
 
 	if len(lines) < 2 {
-		return nil, fmt.Errorf("Invalid number of input lines")
+		return nil, fmt.Errorf("Invalid number of input lines %v", lines)
 	}
 
 	firstLine := strings.Split(lines[0], "=")
@@ -38,7 +42,8 @@ func ParseInput(r io.Reader) (*pullParams, error) {
 		return nil, fmt.Errorf("Invalid argument, host not found")
 	}
 	host := secondLine[1]
-	return &pullParams{host, protocol}, nil
+
+	return &pullParams{host, protocol, operation}, nil
 }
 
 // FromJSON returns the matching credentials from a json formatted reader

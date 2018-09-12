@@ -13,13 +13,18 @@ func main() {
 	secretsFile := flag.String("file", "", "the path of the json file holding the credentials")
 	flag.Parse()
 
-	if *secretsFile == "" {
-		log.Fatal("-file parameter not found")
+	params, err := credentials.ParseInput(os.Stdin)
+
+	if params.Operation != "get" {
+		os.Exit(0)
 	}
 
-	params, err := credentials.ParseInput(os.Stdin)
 	if err != nil {
 		log.Fatalf("Failed to read input %v", err)
+	}
+
+	if *secretsFile == "" {
+		log.Fatal("-file parameter not found")
 	}
 
 	f, err := os.Open(*secretsFile)
